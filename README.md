@@ -36,6 +36,3 @@ Python | OpenCV | YOLOv8 | ByteTrack | EasyOCR | NumPy
 • Super-resolution for clearer license plates
 • Integration with databases and cloud systems
 
-🔗 GitHub Repository: (Add your repo link here)
-
-If you found this project helpful, feel free to like 👍, share 🔄, and subscribe for more AI & Computer Vision projects!
