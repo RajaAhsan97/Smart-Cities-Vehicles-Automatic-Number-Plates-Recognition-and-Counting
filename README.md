@@ -33,7 +33,7 @@ Python | OpenCV | YOLOv8 | ByteTrack | EasyOCR | NumPy
 ### This system demonstrates how computer vision can be applied to real-world problems, enabling intelligent and automated traffic analysis.
 
 ## Future Improvements:
-• Real-time dashboard (Streamlit)
+• Real-time dashboard 
 • Super-resolution for clearer license plates
 • Integration with databases and cloud systems
 
