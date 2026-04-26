@@ -20,40 +20,6 @@ This project demonstrates a real-time AI-based solution for detecting, tracking,
 • Multi-frame voting for stable plate detection  
 • Data logging (Vehicle Type, Track ID, Plate Number, Timestamp)  
 
-## 🏗️ System Architecture
-
-```mermaid
-flowchart TD
-
-A[Input Video / Camera Stream] --> B[Frame Extraction (OpenCV)]
-
-B --> C[Vehicle Detection (YOLOv8)]
-C --> D[Object Tracking (ByteTrack)]
-
-D --> E[Vehicle Counting Logic]
-E --> F[Vehicle Records Storage]
-
-B --> G[License Plate Detection (YOLOv8)]
-G --> H[Plate Cropping]
-
-H --> I[Image Preprocessing]
-I --> J[OCR (EasyOCR)]
-
-J --> K[Plate Text Output]
-
-D --> L[Vehicle Bounding Boxes]
-K --> M[Plate- Vehicle Association]
-
-L --> M
-M --> N[Multi-frame Voting]
-
-N --> O[Final Plate Number]
-
-O --> F
-
-F --> P[CSV / Database Storage]
-
-P --> Q[Output Video with Annotations]
 
 ## Tech Stack:
 Python | OpenCV | YOLOv8 | ByteTrack | EasyOCR | NumPy
