@@ -6,7 +6,7 @@
 
 ## 🎥 Demo Video
 
-[Watch on YouTube]([https://youtu.be/HXLHv2Ek3MI])
+[Watch on YouTube]((https://www.youtube.com/watch?v=NAihJOi8sNA))
 
 
 This project demonstrates a real-time AI-based solution for detecting, tracking, counting vehicles, and extracting license plate numbers from video streams. It is designed as part of a smart city initiative to improve traffic monitoring, law enforcement, and automation.
