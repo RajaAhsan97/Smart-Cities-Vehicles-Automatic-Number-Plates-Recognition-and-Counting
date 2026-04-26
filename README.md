@@ -10,6 +10,12 @@
 
 This project demonstrates a real-time AI-based solution for detecting, tracking, counting vehicles, and extracting license plate numbers from video streams. It is designed as part of a smart city initiative to improve traffic monitoring, law enforcement, and automation.
 
+## 🏗️ System Architecture
+
+<p align="center">
+  <img src="ANRP system architecture.png" alt="System Architecture" width="900">
+</p>
+
 ## Key Features:
 • Vehicle Detection using YOLO (Car, Motorcycle, Truck)  
 • Multi-object Tracking using ByteTrack  
