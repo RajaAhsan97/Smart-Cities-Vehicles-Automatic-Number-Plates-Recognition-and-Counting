@@ -32,33 +32,51 @@ records = {}
 reader = easyocr.Reader(['en'])
 
 # draw plate bounding box
-def draw_plate_bbox(frame, px1, py1, px2, py2):
+def draw_plate_bbox(frame_copy, px1, py1, px2, py2):
     # Draw plate bounding box
-    cv2.rectangle(frame, (px1, py1), (px2, py2), (255, 255, 0), 2)
-    return frame
+    cv2.rectangle(frame_copy, (px1, py1), (px2, py2), (255, 255, 0), 2)
+    return frame_copy
 
-# display plate number on top of bounding box
-def display_plate_number(frame, display_text, px1, py1):
-    cv2.putText(frame, display_text, (px1, py1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
-    return frame
+# display plate number on top of vehicles bounding box
+def display_plate_number(frame_copy, display_text, vx1, vy1):
+    #cv2.putText(frame, display_text, (px1, py1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
+    
+    text_x = vx1
+    text_y = vy1 - 10 if vy1 - 10 > 10 else vy1 + 30
 
-def draw_counting_lines(frame, width, upper_line, lower_line):
+    # Font settings
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 1.0   # increase for larger text
+    thickness = 2
+
+    # Get text size
+    (text_w, text_h), baseline = cv2.getTextSize(display_text, font, font_scale, thickness)
+
+    # Draw WHITE background rectangle
+    cv2.rectangle(frame_copy,(text_x, text_y - text_h - 5),(text_x + text_w + 5, text_y + baseline),(255, 255, 255), -1)
+
+    # Draw BLACK text
+    cv2.putText(frame_copy,display_text,(text_x, text_y),font,font_scale,(0, 0, 0),thickness,cv2.LINE_AA)
+
+    return frame_copy
+
+def draw_counting_lines(frame_copy, width, upper_line, lower_line):
     # Draw counting line
-    cv2.line(frame, (0, upper_line), (width, upper_line), (255,0,0), 2)
-    cv2.line(frame, (0, lower_line), (width, lower_line), (0,0,255), 2)
+    cv2.line(frame_copy, (0, upper_line), (width, upper_line), (255,0,0), 2)
+    cv2.line(frame_copy, (0, lower_line), (width, lower_line), (0,0,255), 2)
 
-    return frame
+    return frame_copy
 
-def display_vehicles_counts(frame, CLASS_COLORS):
+def display_vehicles_counts(frame_copy, CLASS_COLORS):
     # Vehicle count display
-    cv2.putText(frame, f"Car: {vehicle_counts[2]}", (10, 30),
+    cv2.putText(frame_copy, f"Car: {vehicle_counts[2]}", (10, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.8, CLASS_COLORS[2], 2)
-    cv2.putText(frame, f"Motorcycle: {vehicle_counts[3]}", (10, 60),
+    cv2.putText(frame_copy, f"Motorcycle: {vehicle_counts[3]}", (10, 60),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.8, CLASS_COLORS[3], 2)
-    cv2.putText(frame, f"Truck: {vehicle_counts[7]}", (10, 90),
+    cv2.putText(frame_copy, f"Truck: {vehicle_counts[7]}", (10, 90),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.8, CLASS_COLORS[7], 2)
 
-    return frame
+    return frame_copy
 
 
 # License Plate preprocessing function
@@ -224,7 +242,7 @@ def count_vehicles(x1, y1, x2, y2, class_id, track_id, upper_line, lower_line):
 # do not know which license plate corresponds to which vehicle. Therefore,
 # I have written the logic to associate detected license plates with the
 # detected vehicles.
-def associate_plate_with_vehicle(frame, vehicle_boxes, plate_detections):
+def associate_plate_with_vehicle(frame_copy, vehicle_boxes, plate_detections):
     global plate_history, plate_tracks, records
 
     # For iterating over each detected vehicles in the frame
@@ -257,14 +275,14 @@ def associate_plate_with_vehicle(frame, vehicle_boxes, plate_detections):
                 if track_id in records and plate_tracks.get(track_id):
                     records[track_id]["plate_number"] = plate_tracks[track_id]
 
-                frame = draw_plate_bbox(frame, px1, py1, px2, py2)    
+                frame_copy = draw_plate_bbox(frame_copy, px1, py1, px2, py2)    
 
                 # Display plate number
                 display_text = plate_tracks.get(track_id, "")
                 if display_text:
-                    frame = display_plate_number(frame, display_text, px1, py1)
+                    frame_copy = display_plate_number(frame_copy, display_text, vx1, vy1)
 
-    return frame
+    return frame_copy
 
 def save_records():
     # =================================

@@ -68,6 +68,9 @@ while True:
 
     frame_count += 1
 
+    # create copy of frame for annotation
+    frame_copy = frame.copy()
+
     # =========================
     # VEHICLE DETECTION
     # =========================
@@ -96,7 +99,7 @@ while True:
         # get colors by class ID
         color = CLASS_COLORS.get(class_id)
         # draw bounding boxes
-        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+        cv2.rectangle(frame_copy, (x1, y1), (x2, y2), color, 2)
 
         # storing coordinates by tracking id
         vehicle_boxes[track_id] = (x1, y1, x2, y2)
@@ -143,11 +146,11 @@ while True:
             })
 
 
-    frame = associate_plate_with_vehicle(frame, vehicle_boxes, plate_detections)
+    frame_copy = associate_plate_with_vehicle(frame_copy, vehicle_boxes, plate_detections)
  
-    frame = draw_counting_lines(frame,w, upper_line, lower_line)
+    frame_copy = draw_counting_lines(frame_copy,w, upper_line, lower_line)
 
-    frame = display_vehicles_counts(frame, CLASS_COLORS)
+    frame_copy = display_vehicles_counts(frame_copy, CLASS_COLORS)
 
 
     out.write(frame)
